@@ -36,6 +36,7 @@ const PharmacySection: React.FC<PharmacySectionProps> = ({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [showProductManager, setShowProductManager] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
+
   const categoryClasses = {
     cosmetics: 'category-cosmetics',
     hygiene: 'category-hygiene',
