@@ -50,12 +50,14 @@ const pharmacySections: PharmacySectionType[] = [
 const PharmacyLayout: React.FC<PharmacyLayoutProps> = ({ width, height }) => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
+  const [sections, setSections] = useState<PharmacySectionType[]>(pharmacySections);
+
   const handleSectionClick = (section: PharmacySectionType) => {
     setActiveSection(section.id);
     
     toast({
       title: `📍 ${section.name}`,
-      description: `Categoria: ${getCategoryDisplayName(section.category)}`,
+      description: `Categoria: ${getCategoryDisplayName(section.category)} | Clique duplo para gerenciar produtos`,
       duration: 3000,
     });
     
@@ -63,6 +65,26 @@ const PharmacyLayout: React.FC<PharmacyLayoutProps> = ({ width, height }) => {
     setTimeout(() => {
       setActiveSection(null);
     }, 3000);
+  };
+
+  const handlePositionChange = (id: string, newPosition: { top: number; left: number; width: number; height: number }) => {
+    setSections(prev => 
+      prev.map(section => 
+        section.id === id 
+          ? { ...section, position: newPosition }
+          : section
+      )
+    );
+  };
+
+  const handleProductsChange = (id: string, newProducts: string[]) => {
+    setSections(prev => 
+      prev.map(section => 
+        section.id === id 
+          ? { ...section, products: newProducts }
+          : section
+      )
+    );
   };
 
   const getCategoryDisplayName = (category: string): string => {
@@ -93,12 +115,15 @@ const PharmacyLayout: React.FC<PharmacyLayoutProps> = ({ width, height }) => {
       </div>
       
       {/* Pharmacy sections */}
-      {pharmacySections.map((section) => (
+      {sections.map((section) => (
         <PharmacySection
           key={section.id}
           section={section}
           onClick={handleSectionClick}
+          onPositionChange={handlePositionChange}
+          onProductsChange={handleProductsChange}
           isActive={activeSection === section.id}
+          containerDimensions={{ width, height }}
         />
       ))}
       

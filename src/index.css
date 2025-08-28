@@ -97,9 +97,14 @@
 @layer components {
   /* Category section styles */
   .category-section {
-    @apply relative rounded-lg p-3 text-white font-medium text-sm cursor-pointer;
-    @apply transition-all duration-200 hover:scale-105 hover:shadow-md;
+    @apply relative rounded-lg p-2 text-white font-medium text-sm;
+    @apply transition-all duration-150 hover:shadow-lg;
     @apply border border-white/20;
+    @apply user-select-none;
+  }
+  
+  .category-section:hover:not(.cursor-grabbing) {
+    @apply scale-102 shadow-md;
   }
   
   .category-cosmetics {
